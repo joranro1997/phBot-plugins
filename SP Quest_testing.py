@@ -17,6 +17,7 @@ button1 = QtBind.createButton(gui, 'button2_clicked', '>= lvl 80 Script', 100, 5
 button1 = QtBind.createButton(gui, 'button3_clicked', 'Test', 190, 50)
 
 def button1_clicked():
+    #Button for testing
     log('Executing Script')
     move_to(114.0, -4.0, 0.0)
     Timer(4.0,move_to,[112.0, 26.0, 0.0]).start()
@@ -24,6 +25,7 @@ def button1_clicked():
     Timer(12.0,btnInjectPacket,['7046','EC 04 00 00 02']).start()
     
 def button2_clicked():
+    #Button for testing
     log('Executing Script')
     UseReturnScroll()
 
@@ -39,11 +41,14 @@ async def button3_clicked():
             name = value['name']
             if ((name[:16] == 'Ordinary Essence') or (name[:13] == 'Crude Essence')):
                 found_quest = True
+                #Check if quest has been completed
                 if quest['completed'] == 'True':
                     stop_bot()
                     log('Going back to town to turn in SP quest')
+                    #Go back to town and wait to spawn
                     UseReturnScroll()
                     await asyncio.sleep(30)
+                    #Identify the town after spawning and select correct script
                     town = GetTown()
                     if town == 'Jangan':
                         Timer(50.0,JanganComplete).start()
@@ -62,12 +67,16 @@ async def button3_clicked():
                                     else:
                                         log('This town is not valid for SP quest')
                 else:
+                    #If quest is found but not completed nothing happens
                     log('Your SP quest is not yet completed. Try again later')
         if found_quest == False:
+            #If no quest is found, return to town to get it
             log('Returning to town to get SP quest')
             stop_bot()
+            #Go back to town and wait to spawn
             UseReturnScroll()
             await asyncio.sleep(30)
+            #Identify the town after spawning and select correct script
             town = GetTown()
             if town == 'Jangan':
                 Timer(50.0,JanganGetNew).start()
@@ -136,6 +145,7 @@ def UseReturnScroll():
 	return 0
     
 def GetTown():
+    #Check what town we are after spawning
 	position = get_position()
 	town = ''
 	if position['region'] == 25000:
@@ -151,6 +161,7 @@ def GetTown():
 	return town
         
 def GetValidRange():
+    #Check if level range is correct for SP quest
     character = get_character_data()
     valid = True
     if ((character['level'] <= 40) or (character['level'] >= 101)):
@@ -158,6 +169,7 @@ def GetValidRange():
     return valid
     
 def JanganComplete():
+    #Script to walk to NPC and turn in SP quest
     move_to(136.0, 33.0, 0.0)
     Timer(4.0,move_to,[161.0, 54.0, 0.0]).start()
     Timer(8.0,btnInjectPacket,['7045','CA 05 00 00']).start()
