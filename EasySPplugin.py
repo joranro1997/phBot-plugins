@@ -725,19 +725,19 @@ class myThread (threading.Thread):
             if checkValidTown():
                 town = GetTown()
                 if town == 'Jangan':
-                    JanganComplete()
+                    JanganGetNew()
                     return
                 elif town == 'Donwhang':
-                    DonwhangComplete()
+                    DonwhangGetNew()
                     return
                 elif town == 'Hotan':
-                    HotanComplete()
+                    HotanGetNew()
                     return
                 elif town == 'Samarkand':
-                    SamarkandComplete()
+                    SamarkandGetNew()
                     return
                 elif town == 'Constantinople':
-                    ConstantinopleComplete()
+                    ConstantinopleGetNew()
                     return 
             log('Going back to town to get SP quest.')
             #Go back to town and wait to spawn
